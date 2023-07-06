@@ -1,0 +1,21 @@
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPDATE</title>
+</head>
+<body>
+    this is update page
+
+    <form action="/update_data/{{data.id}}" method="POST">
+        {%csrf_token%}
+        Title<input type="text" name="title" value="{{data.title}}" id=""><br><br>
+        Description<input type="text" value="{{data.description}}" name="description" id=""><br><br>
+        Author<input type="text" name="author" value="{{data.author}}" id=""><br><br>
+        No of Lines<input type="number" value="{{data.no_of_line}}" name="no_of_line" id=""><br><br>
+        <button type="submit">UPDATE</button>
+    </form>
+</body>
+</html>
