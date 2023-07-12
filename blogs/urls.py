@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from blogs.views import BlogCreate
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -12,7 +13,8 @@ urlpatterns = [
     path('model_form', views.modelDjangoForm, name='model_form'),
     path('delete/<id>', views.deleteById, name='delete-by-id'),
     path('update/<id>', views.updateBlog, name="update_blog"),
-    path('update_data/<id>', views.updateData, name='update-data')
+    path('update_data/<id>', views.updateData, name='update-data'),
+    path('class-based-create', BlogCreate.as_view())
 ]
 '''
 1. create html file for adding blogs(add form)

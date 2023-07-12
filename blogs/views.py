@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import BlogContent
 from .forms import TestFormClass, ModelsDemoForm
 from django.shortcuts import get_object_or_404
+from django.views.generic.edit import CreateView
 
 # Create your views here.
 def index(request):
@@ -79,4 +80,8 @@ def updateData(request,id):
     obj.save()
     success = f"{c_id} - Data updated successfully"
     return render(request, 'pages/blogs.html', {"success":success})
+
+class BlogCreate(CreateView):
+    model = BlogContent
+    fields = "__all__"
 
