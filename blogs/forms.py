@@ -9,5 +9,10 @@ class TestFormClass(forms.Form):
 class ModelsDemoForm(forms.ModelForm):
     class Meta:
         model = BlogContent
-        fields = '__all__'
+        fields = [
+            "title",
+            "description" ,
+            "no_of_line",
+            "img"  
+        ]
         

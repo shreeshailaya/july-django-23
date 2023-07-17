@@ -8,11 +8,15 @@
 </head>
 <body>
     <h1>ADD BLOG</h1>
+    {% if user.is_authenticated %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.as_p}}
         <button type="submit">SUBMIT</button>
     </form>
+    {% else %}
+    <p>Please log in</p>
+    {% endif %}
 
     {{success}}
 </body>

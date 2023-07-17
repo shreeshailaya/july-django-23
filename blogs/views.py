@@ -24,7 +24,7 @@ def addBlogHandler(request):
     if request.GET.get('title') :
         title_r = request.GET.get('title')
         description_r = request.GET.get('description')
-        author_r = request.GET.get('author')
+        author_r = request.user
         no_of_lines_r = request.GET.get('no_of_lines')
 
         obj = BlogContent(title=title_r, description = description_r,
@@ -47,8 +47,12 @@ def djangoFormsDemo(request):
 
 def modelDjangoForm(request):
     success = ""
-    form = ModelsDemoForm(request.POST, request.FILES or None)
+    form = ModelsDemoForm(request.POST, request.FILES)
     if form.is_valid():
+        # instance = form.save(commit=False)
+        # instance.user = request.user
+        # instance.save()
+        # print(instance.user)
         form.save()
         success = "data saved successfully"
 
