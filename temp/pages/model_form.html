@@ -7,7 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST">
+    <h1>ADD BLOG</h1>
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.as_p}}
         <button type="submit">SUBMIT</button>
