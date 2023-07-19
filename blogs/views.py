@@ -4,6 +4,8 @@ from .models import BlogContent
 from .forms import TestFormClass, ModelsDemoForm
 from django.shortcuts import get_object_or_404
 from django.views.generic.edit import CreateView
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def index(request):
@@ -17,6 +19,7 @@ def allBlogs(request):
     context = {"all_blogs": obj}
     return render(request, 'pages/blogs.html',context)
 
+@login_required(login_url="/admin/")
 def addBlogPage(request):
     return render(request, 'pages/add_blog.html')
 
@@ -34,7 +37,8 @@ def addBlogHandler(request):
         return render(request, "pages/add_blog.html", {"response":"Blog Saved Successfully"})
     else:
         return render(request, "pages/add_blog.html", {"response":"Please fill form"})
-    
+
+@login_required(login_url="/admin/") 
 def deleteBlogByID(request):
     id1 = request.GET.get('id')
     BlogContent.objects.get(pk=id1).delete()
@@ -49,30 +53,40 @@ def modelDjangoForm(request):
     success = ""
     form = ModelsDemoForm(request.POST, request.FILES)
     if form.is_valid():
-        # instance = form.save(commit=False)
-        # instance.user = request.user
-        # instance.save()
-        # print(instance.user)
-        form.save()
+        obj = form.save(commit=False)
+        obj.author = request.user
+        print(request.user)
+        obj.save()
         success = "data saved successfully"
 
     context = {'form': form, 'success':success}
     return render(request, 'pages/model_form.html', context)
 
+@login_required(login_url="/admin/")
 def deleteById(request, id):
-    BlogContent.objects.get(pk= id).delete()
-    success = 'Successfully deleted the blog'
+    obj = BlogContent.objects.get(id=id)
+    if obj.author == request.user:
+        BlogContent.objects.get(pk= id).delete()
+        success = 'Successfully deleted the blog'
+    else:
+        success = f"You cannot delete this blog author is {obj.author}"
     return render(request, 'pages/blogs.html', {'success':success})
 
+@login_required(login_url="/admin/")
 def updateBlog(request, id):
     obj = BlogContent.objects.get(id = id)
+    if obj.author == request.user:
+        pass
+    else:
+        return HttpResponse("You Cannot edit this")
     return render(request, 'pages/update_view.html', {"data":obj})
 
+@login_required(login_url="/admin/")
 def updateData(request,id):
     success = ''
     c_id = id
     c_title = request.POST.get('title')
-    c_author = request.POST.get('author')
+    c_author = request.user
     c_description = request.POST.get('description')
     c_no_of_line = request.POST.get('no_of_line')
 

@@ -15,4 +15,5 @@ class ModelsDemoForm(forms.ModelForm):
             "no_of_line",
             "img"  
         ]
-        
+
+    
